@@ -1,0 +1,10 @@
+<account-validations>
+  <Account type="Normal">
+     <class name="NormalBalanceValidator"/>
+     <class name="NormalDiscountValidator"/>
+  </Account>
+  <Account type="Premium">
+     <class name="PremiumBalanceValidator"/>
+     <class name="PremiumDiscountValidator"/>
+  </Account>
+</account-validations>

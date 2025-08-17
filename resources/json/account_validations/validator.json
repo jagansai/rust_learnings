@@ -1,0 +1,10 @@
+{
+    "Normal" : [
+        "NormalBalanceValidator",
+        "NormalDiscountValidator"
+    ],
+    "Premium" : [
+        "PremiumBalanceValidator",
+        "PremiumDiscountValidator"
+    ]
+}

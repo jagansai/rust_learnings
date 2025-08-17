@@ -1,34 +1,32 @@
-
-mod read_from_csv;
-mod person;
-
-use crate::person::PrintInfo;
-use std::path::PathBuf;
+use rust_learnings::validation_impl;
+use rust_learnings::prompt::prompt;
+use rust_learnings::person::PrintInfo;
+use rust_learnings::read_from_csv::read_people_from_csv;
 
 fn main() {
-    // Accept an optional first CLI argument as CSV path. If none provided, use `people.csv`.
-    let csv_path: PathBuf = match std::env::args().nth(1) {
-        Some(p) => PathBuf::from(p),
-        None => PathBuf::from("people.csv"),
-    };
+    println!("Choose an option:");
+    println!("1) Read from csv");
+    println!("2) Account Validation Demo");
 
-    let people = match read_from_csv::read_people_from_csv(&csv_path) {
-        Ok(v) => v,
-        Err(e) => {
-            eprintln!(
-                "Failed to read CSV from '{}' ({}), falling back to hardcoded list",
-                csv_path.display(),
-                e
-            );
-            vec![
-                person::Person { name: String::from("Sai"), age: 46, city: String::from("Singapore") },
-                person::Person { name: String::from("Alex"), age: 30, city: String::from("New York") },
-            ]
+    let choice = prompt("Enter choice");
+
+    match choice.as_str() {
+        "1" => {
+            // Use default CSV path like before
+            let csv_path = std::path::PathBuf::from("resources/data/people.csv");
+            match read_people_from_csv(&csv_path) {
+                Ok(people) => {
+                    for p in people {
+                        p.print_info();
+                        println!("---");
+                    }
+                }
+                Err(e) => eprintln!("Failed to read CSV: {}", e),
+            }
         }
-    };
-
-    for person in people {
-        person.print_info();
-        println!("---");
+        "2" => {
+            validation_impl::run_account_validation_demo();
+        }
+        _ => println!("Unknown choice"),
     }
 }
